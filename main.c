@@ -31,13 +31,13 @@ struct patient_data *ptr;
                 search_record(ptr);
                 break;
             case 'c':
-                printf("Data Modified\n");
+                modify_record(ptr);
                 break;
             case 'd':
                 delete_record();
                 break;
             case 'e':
-                all_records(ptr);
+                all_records();
                 break;
             case 'f':
                 printf("Thank You\n");

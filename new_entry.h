@@ -1,5 +1,5 @@
 struct patient_data {
-    char reg_no[15];
+    char reg_no[50];
     char pat_name[50];
     char guar_name[50];
     char gen[8];
@@ -80,53 +80,87 @@ void new_entry(struct patient_data *ptr) {
         strcpy((ptr + 0)->med_pres, "None");
     }
 
-    FILE *fptr;
-    char fname[100];
-    strcpy(fname, (ptr + 0)->reg_no);
-    strcat(fname, (ptr + 0)->pat_name);
-    strcat(fname, ".txt");
+    FILE *cfptr;
+    char cname[100];
+    strcpy(cname, (ptr + 0)->reg_no);
+    strcat(cname, (ptr + 0)->pat_name);
+    strcat(cname, ".txt");
 
-    fptr = fopen(fname, "w");
+    cfptr = fopen(cname, "r");
 
-    fprintf(fptr, "%s\n", (ptr + 0)->reg_no);
+    if(cfptr == NULL) {
+        FILE *fptr;
+        char fname[100];
+        strcpy(fname, (ptr + 0)->reg_no);
+        strcat(fname, (ptr + 0)->pat_name);
+        strcat(fname, ".txt");
 
-    fprintf(fptr, "%s\n", (ptr + 0)->pat_name);
+        fptr = fopen(fname, "w");
 
-    fprintf(fptr, "%s\n", (ptr + 0)->guar_name);
+        fprintf(fptr, "%s\n", (ptr + 0)->reg_no);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->gen);
+        fprintf(fptr, "%s\n", (ptr + 0)->pat_name);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->bgrp);
+        fprintf(fptr, "%s\n", (ptr + 0)->guar_name);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->age);
+        fprintf(fptr, "%s\n", (ptr + 0)->gen);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->address[0]);
+        fprintf(fptr, "%s\n", (ptr + 0)->bgrp);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->address[1]);
+        fprintf(fptr, "%s\n", (ptr + 0)->age);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->address[2]);
+        fprintf(fptr, "%s\n", (ptr + 0)->address[0]);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->address[3]);
+        fprintf(fptr, "%s\n", (ptr + 0)->address[1]);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->phn);
+        fprintf(fptr, "%s\n", (ptr + 0)->address[2]);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->dis_name);
+        fprintf(fptr, "%s\n", (ptr + 0)->address[3]);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->doc_name);
+        fprintf(fptr, "%s\n", (ptr + 0)->phn);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->his_desc);
+        fprintf(fptr, "%s\n", (ptr + 0)->dis_name);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->date_treat);
+        fprintf(fptr, "%s\n", (ptr + 0)->doc_name);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->treat_given);
+        fprintf(fptr, "%s\n", (ptr + 0)->his_desc);
 
-    fprintf(fptr, "%s\n", (ptr + 0)->med_pres);
+        fprintf(fptr, "%s\n", (ptr + 0)->date_treat);
 
-    fclose(fptr);
+        fprintf(fptr, "%s\n", (ptr + 0)->treat_given);
 
-    FILE *lfptr;
-    lfptr = fopen("all_records.txt", "a");
+        fprintf(fptr, "%s\n", (ptr + 0)->med_pres);
 
-    fprintf(lfptr, "%s\t\t%s\n", (ptr + 0)->reg_no, (ptr + 0)->pat_name);
-    fclose(lfptr);
+        fclose(fptr);
+
+        FILE *lfptr, *afptr;
+        lfptr = fopen("pat_name.txt", "a");
+        afptr = fopen("reg_no.txt", "a");
+
+        fprintf(lfptr, "%s", (ptr + 0)->pat_name);
+        fprintf(lfptr, "\n");
+        fclose(lfptr);
+
+        fprintf(afptr, "%s", (ptr + 0)->reg_no);
+        fprintf(afptr, "\n");
+        fclose(afptr);
+
+
+        FILE *cptr;
+        cptr = fopen("count.txt", "r");
+        char count[100];
+        fscanf(cptr, "%s", count);
+        fclose(cptr);
+        int c = atoi(count);
+        c++;
+        FILE *captr;
+        captr = fopen("count.txt", "w");
+        fprintf(captr, "%d", c);
+        fclose(captr);
+
+
+    } 
+    else {
+        printf("Record already exists for %s(%s)\n", (ptr+0)->pat_name, (ptr+0)->reg_no);
+    }
 }
